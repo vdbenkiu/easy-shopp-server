@@ -29,9 +29,11 @@ app.use(morgan('tiny'));
 app.use(authJwt());
 app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
 app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-      res.status(401).send('the user is not authorized');
-    }
+    // if (err.name === 'UnauthorizedError') {
+    //   res.status(401).send('the user is not authorized');
+    // }
+    if (err.name === "UnauthorizedError") {
+      res.status(402).send("invalid token...");}
     if(err.name === 'ValidationError'){
         return res.status(401).json({message:err});
     }
