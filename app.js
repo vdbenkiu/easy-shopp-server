@@ -68,17 +68,10 @@ mongoose.connect(process.env.CONNECT_STRING,
 
 
 
-// development
-// app.listen(3000, ()=>{
-   
-//     console.log('server is runing http://localhost:3000');
-// })
-
 
 // production
-var server= app.listen(process.env.PORT || 3000 , function(){
+var server= app.listen(process.env.PORT || 3000 , function () {
   var port = server.address().port;
   console.log("Express is working on port"+ port)
 })
 
-//module.exports=router;
