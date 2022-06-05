@@ -26,15 +26,16 @@ app.options('*',cors());
 
 app.use (bodyParser.json());
 app.use(morgan('tiny'));
-app.use(authJwt());
-app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
-
-
 app.get('/', (req, res) => {
   res.json({
     mesage: 'Server is running'
   });
 })
+app.use(authJwt());
+app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
+
+
+
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
      return res.status(401).json({success:false,error:err});
