@@ -28,17 +28,15 @@ app.use (bodyParser.json());
 app.use(morgan('tiny'));
 app.use(authJwt());
 app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
-//app.use(function (err, req, res, next) {
-    // if (err.name === 'UnauthorizedError') {
-    //   res.status(401).send('the user is not authorized');
-    // }
-//     if (err.name === "UnauthorizedError") {
-//       res.status(402).send("invalid token...");}
-//     if(err.name === 'ValidationError'){
-//         return res.status(401).json({message:err});
-//     }
-// return res.status(500).json(err);
-//   });
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+     return res.status(401).json({success:false,error:err});
+    }
+    if(err.name === 'ValidationError'){
+       return  res.status(401).json({message:err});
+    }
+     res.status(500).json(err);
+  });
 
 
 const api=process.env.API_URL;
@@ -67,17 +65,7 @@ mongoose.connect(process.env.CONNECT_STRING,
     .catch((err)=>{
         console.log(err)
     });
-
-
-
-
-// production
-// var server= app.listen(process.env.PORT || 3000 , function () {
-//   var port = server.address().port;
-//   console.log("Express is working on port"+ port)
-// })
-
-var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
-console.log("Listening on Port 3000");
-});
+var server =app.listen(process.env.PORT || 3000, function(){
+  var port=server.address().port;
+  console.log("Express is working on port" + port)
+})
