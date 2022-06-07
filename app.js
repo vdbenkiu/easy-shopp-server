@@ -57,23 +57,42 @@ app.use(`${api}/users`,usersRouter);
 
 
 
-mongoose.connect(process.env.CONNECT_STRING,
-    {
+// mongoose.connect(process.env.CONNECT_STRING,
+//     {
         
         
-       useNewUrlParser: true, 
-       useUnifiedTopology: true ,
-        dbName:"Eshop-database2"
-      }
-    )
+//        useNewUrlParser: true, 
+//        useUnifiedTopology: true ,
+//         dbName:"Eshop-database2"
+//       }
+//     )
     
-    .then(()=>{
-        console.log('database Connect is ready...')
-    })
-    .catch((err)=>{
-        console.log(err)
-    });
-var server =app.listen(process.env.PORT || 3000, function(){
+//     .then(()=>{
+//         console.log('database Connect is ready...')
+//     })
+//     .catch((err)=>{
+//         console.log(err)
+//     });
+var res = [];
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://LVDshop:lvd123456789@cluster0.je6rh.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { dbName:"Eshop-database2" ,useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 }).connect();
+// client.connect(err => {
+//   const conect = client.db("Eshop-database2");
+//   // perform actions on the collection object
+//   // const collection=conect.collection("products");
+//   //     // Fetching the records of name key
+//   //     collection.find({ }).project({name:1})
+//   //     .toArray().then((values) => {
+
+//   //     // Printing the values
+//   //     console.log(values);
+//   // });
+//   //client.close();
+// });
+
+
+var server =app.listen(process.env.PORT || 80, function(){
   var port=server.address().port;
   console.log("Express is working on port" + port)
 })
