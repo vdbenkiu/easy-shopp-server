@@ -26,24 +26,16 @@ app.options('*',cors());
 
 app.use (bodyParser.json());
 app.use(morgan('tiny'));
-app.get('/', (req, res) => {
-  res.json({
-    mesage: 'Server is running'
-  });
-})
 app.use(authJwt());
 app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
-
-
-
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
-     return res.status(401).json({success:false,error:err});
+      res.status(401).send('the user is not authorized');
     }
     if(err.name === 'ValidationError'){
-       return  res.status(401).json({message:err});
+        return res.status(401).json({message:err});
     }
-     res.status(500).json(err);
+return res.status(500).json(err);
   });
 
 
@@ -57,8 +49,10 @@ app.use(`${api}/users`,usersRouter);
 
 
 
-mongoose.connect("mongodb+srv://LVDshop:lvd123456789@cluster0.je6rh.mongodb.net/?retryWrites=true&w=majority",
-    { 
+mongoose.connect(process.env.CONNECT_STRING,
+    {
+        
+        
        useNewUrlParser: true, 
        useUnifiedTopology: true ,
         dbName:"Eshop-database2"
@@ -71,8 +65,11 @@ mongoose.connect("mongodb+srv://LVDshop:lvd123456789@cluster0.je6rh.mongodb.net/
     .catch((err)=>{
         console.log(err)
     });
-
-
+app.listen(3000, ()=>{
+   
+    console.log('server is runing http://localhost:3000');
+})
+module.exports=router;
 var server =app.listen(process.env.PORT || 80, function(){
   var port=server.address().port;
   console.log("Express is working on port" + port)
