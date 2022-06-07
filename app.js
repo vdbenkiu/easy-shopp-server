@@ -30,7 +30,7 @@ app.use(authJwt());
 app.use('/public/uploads',express.static(__dirname + '/public/uploads'));
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
-      res.status(401).send('the user is not authorized');
+      res.status(401).json({success:false,error:err});
     }
     if(err.name === 'ValidationError'){
         return res.status(401).json({message:err});
